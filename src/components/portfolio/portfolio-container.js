@@ -1,81 +1,85 @@
 import React, { Component } from "react";
-
+import axios from "axios";
 import PortfolioItem from "./portfolio-item";
 
 export default class PortfolioContainer extends Component {
   constructor() {
     super();
 
+
     this.state = {
-      PageTitle: "Bienvenido a mi portafolio",
+      pageTitle: "Bienvenido a mi portafolio",
       isLoading: false,
-      data: [
-        { title: "Quip", category:"eCommerce", slug:"Quip" },
-        { title: "Eventbrite", category:"Scheduling", slug:"Eventbrite" },
-        { title: "Ministry Safe", category: "Enterprise", slug:"Ministry Safe"},
-        { title: "SwingAway", category:"eCommerce", slug:"SwingAwa" },
-      ]
+      data: []
     };
     this.handleFilter = this.handleFilter.bind(this);
 
+
+
   }
   handleFilter(filter) {
-    if (filter === "CLEAR_FILTERS"){
-      this.getPortfolioItems(filter);
-    } else {
-      this.getPortfolioItems(filter);
-    } 
-  
     this.setState({
       data: this.state.data.filter(item => {
         return item.category === filter;
       })
 
-    })
+    });
 
   }
-  portfolioItems() {
+  getPortfolioItems() {
+    axios
+      .get('https://susanap.devcamp.space/portfolio/portfolio_items')
+      .then(response => {
+        console.log(response);
+        this.setState({
+          data: response.data.portfolio_items
+        })
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
-    return this.state.data.map((item) => {
-      return <PortfolioItem title={item.title} url={"google.com"} slug={item.slug}/>;
+  PortfolioItems() {
+
+    return this.state.data.map(item => {
+      console.log("item data", item);
+      return (
+        <PortfolioItem 
+          key={item.id} 
+          item={item} 
+        />
+      );
     });
   }
+  componentDidMount() {
+    this.getPortfolioItems();
 
+  }
   render() {
     if (this.state.isLoading) {
       return <div>Loading...</div>;
     }
 
+
     return (
-      <div className="homepage-wrapper">
-        <div className="filter-links">
-          <button
-            className="btn"
-            onClick={() => this.handleFilter("eCommerce")}
-          >
+      
+        <div className="portfolio-items-wrapper">
+          
+          <button className="btn" onClick={() => this.handleFilter("eCommerce")}>
             eCommerce
           </button>
-          <button
-            className="btn"
-            onClick={() => this.handleFilter("Scheduling")}
-          >
+          <button className="btn" onClick={() => this.handleFilter("Scheduling")}>
             Scheduling
           </button>
-          <button
-            className="btn"
-            onClick={() => this.handleFilter("Enterprise")}
-          >
+          <button className="btn" onClick={() => this.handleFilter("Enterprise")}>
             Enterprise
           </button>
-          <button
-            className="btn"
-            onClick={() => this.handleFilter("CLEAR_FILTERS")}
-          >
-            All
-          </button>
+
+          {this.PortfolioItems()}
+
         </div>
-        <div className="portfolio-items-wrapper">{this.portfolioItems()}</div>
-      </div>
+      
     );
   }
 }
