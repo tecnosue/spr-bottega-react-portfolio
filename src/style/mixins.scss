@@ -39,3 +39,10 @@
         }
     }
 }
+
+
+@mixin grid-base {
+    display: grid;
+    grid-gap: 21px;
+
+}
