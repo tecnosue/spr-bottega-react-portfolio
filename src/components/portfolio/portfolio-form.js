@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
-import  DropzoneComponent  from "react-dropzone-component";
-
+import DropzoneComponent from "react-dropzone-component";
 import "../../../node_modules/dropzone/dist/min/dropzone.min.css";
 import "../../../node_modules/react-dropzone-component/styles/filepicker.css";
+import {FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class PortfolioForm extends Component {
   constructor(props) {
@@ -12,42 +12,97 @@ export default class PortfolioForm extends Component {
     this.state = {
       name: "",
       description: "",
-      category: "",
+      category: "eCommerce",
       position: "",
       url: "",
       thumb_image: "",
       banner_image: "",
-      logo: ""
+      logo: "",
+      editMode: false,
+      apiUrl: "https://susanap.devcamp.space/portfolio/portfolio_items",
+      apiAction: "post",
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.componentConfig= this.componentConfig.bind(this);
-    this.djsConfig=this.djsConfig.bind(this);
-    this.handleThumbDrop=this.handleThumbDrop.bind(this);
-    this.handleBannerDrop=this.handleBannerDrop.bind(this);
-    this.handleLogoDrop=this.handleLogoDrop.bind(this);
+    this.componentConfig = this.componentConfig.bind(this);
+    this.djsConfig = this.djsConfig.bind(this);
+    this.handleThumbDrop = this.handleThumbDrop.bind(this);
+    this.handleBannerDrop = this.handleBannerDrop.bind(this);
+    this.handleLogoDrop = this.handleLogoDrop.bind(this);
+    this.deleteImage = this.deleteImage.bind(this);
 
     this.thumbRef = React.createRef();
     this.bannerRef = React.createRef();
     this.logoRef = React.createRef();
-
   }
 
-  handleThumbDrop(){
+  deleteImage(imageType) {
+    console.log("deleteImage", imageType);
+    axios
+      .delete(
+        `https://api.devcamp.space/portfolio/delete-portfolio-image/${this.state
+          .id}?image_type=${imageType}`,
+        { withCredentials: true }
+      )
+      .then(response => {
+        this.setState({
+          [`${imageType}_url`]: ""
+        });
+      })
+      .catch(error => {
+        console.log("deleteImage error", error);
+      });
+    
+  }
+
+  componentDidUpdate() {
+    if (Object.keys(this.props.portfolioToEdit).length > 0) {
+      const {
+        id,
+        name,
+        description,
+        category,
+        position,
+        url,
+        thumb_image_url,
+        banner_image_url,
+        logo_url,
+      } = this.props.portfolioToEdit;
+
+      this.props.clearPortfolioToEdit();
+
+      this.setState({
+        id: id,
+        name: name || "",
+        description: description || "",
+        category: category || "eCommerce",
+        position: position || "",
+        url: url || "",
+        editMode: true,
+        apiUrl: `https://susanap.devcamp.space/portfolio/portfolio_items/${id}`,
+        apiAction: "patch",
+        thumb_image_url: thumb_image_url || "",
+        banner_image_url: banner_image_url || "",
+        logo_url: logo_url || "",
+      });
+    }
+  }
+
+  handleThumbDrop() {
     return {
-      addedfile: file=> this.setState({ thumb_image: file})
+      addedfile: (file) => this.setState({ thumb_image: file }),
     };
   }
 
-  handleBannerDrop(){
+  handleBannerDrop() {
     return {
-      addedfile: file=> this.setState({ banner_image: file})
+      addedfile: (file) => this.setState({ banner_image: file }),
     };
   }
 
-  handleLogoDrop(){
+  handleLogoDrop() {
     return {
-      addedfile: file=> this.setState({ logo_image: file})
+      addedfile: (file) => this.setState({ logo_image: file }),
     };
   }
 
@@ -55,19 +110,15 @@ export default class PortfolioForm extends Component {
     return {
       iconFiletypes: [".jpg", ".png"],
       showFiletypeIcon: true,
-      postUrl: "https://httpbin.org/post"
-
-    }
+      postUrl: "https://httpbin.org/post",
+    };
   }
 
   djsConfig() {
     return {
       addRemoveLinks: true,
-      maxFiles: 1
-
-    }
-
-    
+      maxFiles: 1,
+    };
   }
 
   buildForm() {
@@ -78,61 +129,67 @@ export default class PortfolioForm extends Component {
     formData.append("portfolio_item[position]", this.state.position);
     formData.append("portfolio_item[category]", this.state.category);
     formData.append("portfolio_item[description]", this.state.description);
-    if(this.state.thumb_image) {
+    if (this.state.thumb_image) {
       formData.append("portfolio_item[thumb_image]", this.state.thumb_image);
     }
-    if(this.state.banner_image) {
+    if (this.state.banner_image) {
       formData.append("portfolio_item[banner_image]", this.state.banner_image);
     }
-    if(this.state.logo_image) {
+    if (this.state.logo_image) {
       formData.append("portfolio_item[logo_image]", this.state.logo_image);
-    }       
+    }
 
     return formData;
   }
 
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   }
 
   handleSubmit(event) {
-    axios
-      .post(
-        "https://susanap.devcamp.space/portfolio/portfolio_items?order_by=created_at&direction=desc",
-        this.buildForm(),
-        { withCredentials: true }
-      )
-      .then(response => {
-        this.props.handleSuccessfulFormSubmission(response.data.portfolio_item);
-      
-      this.setState ({
-        name: "",
-        description: "",
-        category: "",
-        position: "",
-        url: "",
-        thumb_image: "",
-        banner_image: "",
-        logo: ""
-      });
+    axios({
+      method: this.state.apiAction,
+      url: this.state.apiUrl,
+      data: this.buildForm(),
+      withCredentials: true,
+    })
+      .then((response) => {
+        if (this.state.editMode) {
+          this.props.handleEditFormSubmission();
+        } else {
+          this.props.handleNewFormSubmission(response.data.portfolio_item);
+        }
 
-        [this.thumbRef, this.bannerRef, this.logoRef].forEach(ref => {
+        this.setState({
+          name: "",
+          description: "",
+          category: "",
+          position: "",
+          url: "",
+          thumb_image: "",
+          banner_image: "",
+          logo: "",
+          editMode: false,
+          apiUrl: "https://susanap.devcamp.space/portfolio/portfolio_items",
+          apiAction: "post",
+        });
+
+        [this.thumbRef, this.bannerRef, this.logoRef].forEach((ref) => {
           ref.current.dropzone.removeAllFiles();
-        })
+        });
       })
-      
-      .catch(error => {
-        console.log("portfolio form handleSubmit error", error );
+
+      .catch((error) => {
+        console.log("portfolio form handleSubmit error", error);
       });
 
     event.preventDefault();
   }
 
   render() {
-    return (      
-
+    return (
       <form onSubmit={this.handleSubmit} className="portfolio-form-wrapper">
         <div className="two-column">
           <input
@@ -158,8 +215,8 @@ export default class PortfolioForm extends Component {
             value={this.state.position}
             onChange={this.handleChange}
           />
-          <select             
-            name="category"            
+          <select
+            name="category"
             value={this.state.category}
             onChange={this.handleChange}
             className="select-element"
@@ -180,40 +237,78 @@ export default class PortfolioForm extends Component {
           />
         </div>
         <div className="image-uploaders">
-          <DropzoneComponent
-            ref={this.thumbRef}
-            config={this.componentConfig()}
-            djsConfig={this.djsConfig()}
-            eventHandlers={this.handleThumbDrop()}
-          >
-            <div className="dz-message">Thumbnail</div>
-          </DropzoneComponent>
+          {this.state.thumb_image_url && this.state.editMode ? (
+            <div className="portfolio-manager-image-wrapper">
+              <img src={this.state.thumb_image_url} />
 
-          <DropzoneComponent
-            ref={this.bannerRef}
-            config={this.componentConfig()}
-            djsConfig={this.djsConfig()}
-            eventHandlers={this.handleBannerDrop()}
-          >
-            <div className="dz-message">Banner</div>
-          </DropzoneComponent>
+              <div className="image-removal-link">
+                <a onClick={() => this.deleteImage("thumb_image")}>
+                <FontAwesomeIcon icon="fa-solid fa-eraser" />
 
 
-          <DropzoneComponent
-            ref={this.logoRef}
-            config={this.componentConfig()}
-            djsConfig={this.djsConfig()}
-            eventHandlers={this.handleLogoDrop()}
-          >
-            <div className="dz-message">Logo</div>
-          </DropzoneComponent>
+                </a>
+              </div>
+            </div>
+          ) : (
+            <DropzoneComponent
+              ref={this.thumbRef}
+              config={this.componentConfig()}
+              djsConfig={this.djsConfig()}
+              eventHandlers={this.handleThumbDrop()}
+            >
+              <div className="dz-message">Thumbnail</div>
+            </DropzoneComponent>
+          )}
 
+          {this.state.logo_url && this.state.editMode ? (
+            <div className="portfolio-manager-image-wrapper">
+              <img src={this.state.logo_url} />
+
+              <div className="image-removal-link">
+                <a onClick={() => this.deleteImage("logo")}>
+                  <FontAwesomeIcon icon="fa-solid fa-eraser" />
+                </a>
+              </div>
+            </div>
+          ) : (
+            <DropzoneComponent
+              ref={this.bannerRef}
+              config={this.componentConfig()}
+              djsConfig={this.djsConfig()}
+              eventHandlers={this.handleBannerDrop()}
+            >
+              <div className="dz-message">Banner</div>
+            </DropzoneComponent>
+          )}
+
+          {this.state.banner_image_url && this.state.editMode ? (
+            <div className="portfolio-manager-image-wrapper">
+              <img src={this.state.banner_image_url} />
+
+              <div className="image-removal-link">
+                <a onClick={() => this.deleteImage("banner_image")}>
+                  <FontAwesomeIcon icon="fa-solid fa-eraser" />
+
+                </a>
+              </div>
+            </div>
+          ) : (
+            <DropzoneComponent
+              ref={this.logoRef}
+              config={this.componentConfig()}
+              djsConfig={this.djsConfig()}
+              eventHandlers={this.handleLogoDrop()}
+            >
+              <div className="dz-message">Logo</div>
+            </DropzoneComponent>
+          )}
         </div>
         <div>
-          <button className="btn" type="submit">Save</button>
+          <button className="btn" type="submit">
+            Save
+          </button>
         </div>
       </form>
-      
     );
   }
 }

@@ -1,74 +1,74 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from "axios";
-
-import NavigationComponent from './navigation/navigation-container';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import NavigationComponent from "./navigation/navigation-container";
 import Home from "./pages/home";
 import About from "./pages/about";
 import Contact from "./pages/contact";
 import Blog from "./pages/blog";
+import BlogDetail from "./pages/blog-detail";
 import PortfolioManager from "./pages/portfolio-manager";
 import PortfolioDetail from "./portfolio/portfolio-detail";
 import Auth from "./pages/auth";
 import NoMatch from "./pages/no-match";
+import Icons from "../helpers/icons";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
 
+    Icons();
+
     this.state = {
-      loggedInStatus: "NOT_LOGGED_IN"
+      loggedInStatus: "NOT_LOGGED_IN",
     };
 
     this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this);
     this.handleUnsuccessfulLogin = this.handleUnsuccessfulLogin.bind(this);
     this.handleSuccessfulLogout = this.handleSuccessfulLogout.bind(this);
-
   }
 
   handleSuccessfulLogin() {
     this.setState({
-      loggedInStatus: "LOGGED_IN"
+      loggedInStatus: "LOGGED_IN",
     });
   }
 
   handleUnsuccessfulLogin() {
     this.setState({
-      loggedInStatus: "NOT_LOGGED_IN"
+      loggedInStatus: "NOT_LOGGED_IN",
     });
   }
   handleSuccessfulLogout() {
     this.setState({
-      loggedInStatus: "NOT_LOGGED_IN"
+      loggedInStatus: "NOT_LOGGED_IN",
     });
   }
   checkLoginStatus() {
-    return axios.get("https://api.devcamp.space/logged_in", {
-      withCredentials: true
-    })
-    .then(response => {
-      const loggedIn = response.data.logged_in;
-      const loggedInStatus = this.state.loggedInStatus;
+    return axios
+      .get("https://api.devcamp.space/logged_in", {
+        withCredentials: true,
+      })
+      .then((response) => {
+        const loggedIn = response.data.logged_in;
+        const loggedInStatus = this.state.loggedInStatus;
 
-      // si LoggedIn and status LOGGED_IN => return data
-      // si LoggedIn and status NOT_LOGGED_IN => actualizar  state
-      // si no LoggedIn and status LOGGED_IN => actualizar  state
+        // si LoggedIn and status LOGGED_IN => return data
+        // si LoggedIn and status NOT_LOGGED_IN => actualizar  state
+        // si no LoggedIn and status LOGGED_IN => actualizar  state
 
-      if (loggedIn && loggedInStatus === "LOGGED_IN") {
-        return loggedIn;
-
-      }else if (loggedIn && loggedInStatus === "NOT_LOGGED_IN"){
-        this.setState({
-          loggedInStatus: "LOGGED_IN"
-          
-        });
-
-      }
-
-    })
-    .catch(error => {
-      console.log("Error", error);
-    })
+        if (loggedIn && loggedInStatus === "LOGGED_IN") {
+          return loggedIn;
+        } else if (loggedIn && loggedInStatus === "NOT_LOGGED_IN") {
+          this.setState({
+            loggedInStatus: "LOGGED_IN",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("Error", error);
+      });
   }
 
   componentDidMount() {
@@ -76,48 +76,52 @@ export default class App extends Component {
   }
   authorizedPages() {
     return [
-      <Route key="1" path="/portfolio-manager" component={PortfolioManager} />
-
-
-
-    ]
+      <Route key="1" path="/portfolio-manager" component={PortfolioManager} />,
+    ];
   }
-
 
   render() {
     return (
-    <div className="container">
-      <Router>
-        <div>
-          <NavigationComponent 
-            loggedInStatus={this.state.loggedInStatus}
-            handleSuccessfulLogout={this.handleSuccessfulLogout}
+      <div className="container">
+        <Router>
+          <div>
+            <NavigationComponent
+              loggedInStatus={this.state.loggedInStatus}
+              handleSuccessfulLogout={this.handleSuccessfulLogout}
             />
 
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route
+                path="/auth"
+                render={(props) => (
+                  <Auth
+                    {...props}
+                    handleSuccessfulLogin={this.handleSuccessfulLogin}
+                    handleUnsuccessfulLogin={this.handleUnsuccessfulLogin}
+                  />
+                )}
+              />
+              <Route path="/about-me" component={About} />
+              <Route path="/contact" component={Contact} />
 
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route
-              path="/auth"
-              render={props => (
-                <Auth
-                  {...props}
-                  handleSuccessfulLogin={this.handleSuccessfulLogin}
-                  handleUnsuccessfulLogin={this.handleUnsuccessfulLogin}
-                />
-              )}
-            />
-            <Route path="/about-me" component={About} />
-            <Route path="/contact" component={Contact} />
-            <Route path="/blog" component={Blog} />
-            {this.state.loggedInStatus==="LOGGED_IN" ? this.authorizedPages(): null}
-            <Route path="/portfolio/:slug" component={PortfolioDetail} />
-            <Route component={NoMatch} />
+              <Route
+                path="/blog"
+                render={(props) => (
+                  <Blog {...props} loggedInStatus={this.state.loggedInStatus} />
+                )}
+              />
+              <Route path="/b/:slug" component={BlogDetail} />
 
-          </Switch>
-        </div>
-      </Router>
-    </div>
+              {this.state.loggedInStatus === "LOGGED_IN" ? (
+                this.authorizedPages()
+                ) : null}
+              <Route path="/portfolio/:slug" component={PortfolioDetail} />
+              <Route component={NoMatch} />
+            </Switch>
+          </div>
+        </Router>
+      </div>
     );
   }
 }
