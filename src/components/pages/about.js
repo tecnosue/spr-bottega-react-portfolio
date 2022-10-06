@@ -10,7 +10,6 @@ export default function About() {
             backgroundImage: `url(${aboutImg})`,
             backgroundRepeat: 'no-repeat', 
             backgroundSize: "cover",
-            //backgroundAttachment: 'fixed',
             backgroundPosition: "center"
           }}
       />
