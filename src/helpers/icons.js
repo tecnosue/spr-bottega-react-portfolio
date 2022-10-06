@@ -5,6 +5,9 @@ import {
   faEraser,
   faSpinner,
   faPlusCircle,
+  faMobileScreenButton,
+  faPaperPlane,
+  faMapLocationDot
 } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
@@ -15,7 +18,11 @@ const Icons = () => {
     faEdit,
     faEraser,
     faSpinner,
-    faPlusCircle
+    faPlusCircle,
+    faMobileScreenButton,
+    faPaperPlane,
+    faMapLocationDot
+
   );
 };
 
