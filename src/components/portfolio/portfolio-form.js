@@ -75,7 +75,7 @@ export default class PortfolioForm extends Component {
         id: id,
         name: name || "",
         description: description || "",
-        category: category || "eCommerce",
+        category: category || "",
         position: position || "",
         url: url || "",
         editMode: true,
@@ -222,9 +222,8 @@ export default class PortfolioForm extends Component {
             className="select-element"
           >
             <option value="eCommerce">eCommerce</option>
-            <option value="social media">social media</option>
-            <option value="educación">educación</option>
-            <option value="tecnología">tecnología</option>
+            <option value="Scheduling">Scheduling</option>
+            <option value="Enterprise">Enterprise</option>
           </select>
         </div>
         <div className="one-column">
