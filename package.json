@@ -5,7 +5,7 @@
     "node": "16.16.0",
     "npm": "8.11.0"
   },
-  "description": "Portafolio personal con React.",
+  "description": "Portfolio personal con React.",
   "scripts": {
     "preinstall": "npm set audit false",
     "start": "webpack-dev-server --config webpack/dev.config.js --watch",
