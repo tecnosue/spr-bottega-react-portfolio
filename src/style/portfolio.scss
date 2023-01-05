@@ -41,16 +41,18 @@
 
         }
         .logo-wrapper img {
-            width: 50%;
+            width: 20%;
             margin-bottom: 20px;
             
         }   
     }    
 }
 
-.portfolio-img-backgroundimage-blur {   
-    transition: 1s;
+//.portfolio-img-backgroundimage-blur {
+.image-blur {
+    transition: 0.1s;
     filter: brightness(10%);
+    -webkit-filter: brightness(10%);
 }
 
 
