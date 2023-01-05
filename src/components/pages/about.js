@@ -14,14 +14,15 @@ export default function About() {
           }}
       />
       <div className="right-column">
-        <h1>Lorem ipsum dolor sit amet consectetur</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, est. Sit dolore omnis deleniti laboriosam fuga corporis tenetur at, mollitia debitis earum illum nemo ipsum distinctio vel veritatis sed itaque?
-          Voluptate consequatur atque commodi earum vitae reiciendis sunt doloribus officia ut tempore nisi in rem facere vero, repudiandae unde, voluptates maxime dicta, inventore magni. Blanditiis provident voluptates facilis fuga accusantium.
-          Quasi totam deleniti nihil ullam cumque nemo nobis minus nisi molestiae suscipit consequuntur unde tempore, porro velit ipsa adipisci perspiciatis laboriosam voluptatem inventore aperiam, delectus tenetur doloremque alias dolorum? Minima.
-          Molestiae quaerat ratione, explicabo facilis minus aliquid sapiente molestias totam dolore similique? Quaerat dolorum voluptatum itaque architecto maxime quasi consectetur et enim exercitationem delectus, suscipit hic tempore ullam magnam nostrum!
-          Facilis, delectus cumque maxime excepturi sit earum veritatis illo adipisci, esse ducimus sunt laudantium mollitia itaque deleniti at optio vero. Repellendus omnis, qui debitis error esse iusto aliquam! Aspernatur, quaerat?
-          Delectus eius hic magnam quidem earum dolore recusandae repellat quod, adipisci non, inventore cupiditate voluptatem nisi, velit temporibus excepturi dolores a. Quo ratione eos dolorum expedita! Odit vero modi odio.
-          one dolor tenetur, illo dignissimos ipsa culpa placeat at cum ea recusandae quia, sapiente ullam eligendi architecto impedit! Deserunt facere explicabo hic pariatur, reprehenderit itaque aliquam! Voluptas, repellat.
+
+        <h1>Hola! Te dejo aquí mi </h1>
+        <div className="cv">
+          <a href='https://mnf.red/tecnosue/timeline' className="site-link" target="_blank">
+            <h1>CV</h1>
+          </a>
+        </div>
+        <h1>Desarrolladora Full Stack</h1>
+        <p>Apasionada de la tecnología, autodidacta, curiosa y tenaz, me implico al máximo en cada proyecto. Durante años he dedicado mi tiempo libre a formarme con software de diseño gráfico, ofimática, sistemas operativos y redes. En 2021 tuve la oportunidad de certificarme con Devcamp by Bottega en Fundamentos de programación donde aprendí HTML5, CSS3 y JavaScript. Me gustó tanto que mi objetivo profesional dió un giro de 180º y me certifiqué como Full Stack Developer en Bottega university.
         </p>
       </div>   
         

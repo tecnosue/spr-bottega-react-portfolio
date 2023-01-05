@@ -16,20 +16,20 @@ export default function Contact() {
       />
       <div className="right-column">
         <div className="contact-bullet-points">
-          <div className="bullet-point-group">
+          {/* <div className="bullet-point-group">
             <div className="icon">
               <FontAwesomeIcon icon="fa-solid fa-mobile-screen-button" />
             </div>
             <div className="text">
               +34-555-555-555
             </div>
-          </div>
+          </div> */}
 
           <div className="bullet-point-group">
             <div className="icon">
               <FontAwesomeIcon icon="fa-solid fa-paper-plane" />            </div>
             <div className="text">
-              dev@devmail.com
+              tecnosue.dev@gmail.com
             </div>
           </div>
 
