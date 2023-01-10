@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
 import DropzoneComponent from "react-dropzone-component";
+
+import filepickerCss from "../../../node_modules/react-dropzone-component/styles/filepicker.css";
+import dropzoneCss from "../../../node_modules/dropzone/dist/min/dropzone.min.css";
+
 import RichTextEditor from "../forms/rich-text-editor";
 
 export default class BlogForm extends Component {
@@ -51,7 +55,7 @@ export default class BlogForm extends Component {
         blog_status: this.props.blog.blog_status,
         content: this.props.blog.content,
         apiUrl: `https://susanap.devcamp.space/portfolio/portfolio_blogs/${this.props.blog.id}`,
-        apiAction: "patch",
+        apiAction: "patch"
       });
     }
   }
@@ -164,7 +168,7 @@ export default class BlogForm extends Component {
         <div className="one-column">
           <RichTextEditor
             handleRichTextEditorChange={this.handleRichTextEditorChange}
-            editMode={this.props.editMode}
+            editMode={this.props.editMode || null}
             contentToEdit={
               this.props.editMode && this.props.blog.content
                 ? this.props.blog.content

@@ -22,8 +22,8 @@ class Blog extends Component {
     window.addEventListener("scroll", this.onScroll, false);
     this.handleNewBlogClick = this.handleNewBlogClick.bind(this);
     this.handleModalClose = this.handleModalClose.bind(this);
-    this.handleSuccessfullNewBlogSubmission =
-    this.handleSuccessfullNewBlogSubmission.bind(this);
+    this.handleSuccessfulNewBlogSubmission =
+    this.handleSuccessfulNewBlogSubmission.bind(this);
   
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
@@ -49,7 +49,7 @@ class Blog extends Component {
   }
 
 
-  handleSuccessfullNewBlogSubmission(blog) {
+  handleSuccessfulNewBlogSubmission(blog) {
     this.setState({
       blogModalIsOpen: false,
       blogItems: [blog].concat(this.state.blogItems)
@@ -86,7 +86,7 @@ class Blog extends Component {
 
   getBlogItems() {
     this.setState({
-      currentPage: this.state.currentPage + 1,
+      currentPage: this.state.currentPage + 1
     });
 
     axios
@@ -126,7 +126,7 @@ class Blog extends Component {
             <BlogItem  blogItem={blogItem} />
             <a onClick={() => this.handleDeleteClick(blogItem)}>
                 <FontAwesomeIcon icon="trash" />
-              </a>
+            </a>
           </div>
         );
       } else {
@@ -138,8 +138,8 @@ class Blog extends Component {
     return (
       <div className="blog-container">
         <BlogModal
-          handleSuccessfullNewBlogSubmission={
-            this.handleSuccessfullNewBlogSubmission
+          handleSuccessfulNewBlogSubmission={
+            this.handleSuccessfulNewBlogSubmission
           }
           handleModalClose={this.handleModalClose}
           modalIsOpen={this.state.blogModalIsOpen}

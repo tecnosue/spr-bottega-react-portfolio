@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import NavigationComponent from "./navigation/navigation-container";
+import NavigationContainer from "./navigation/navigation-container";
 import Home from "./pages/home";
 import About from "./pages/about";
 import Contact from "./pages/contact";
@@ -21,7 +21,7 @@ export default class App extends Component {
     Icons();
 
     this.state = {
-      loggedInStatus: "NOT_LOGGED_IN",
+      loggedInStatus: "NOT_LOGGED_IN"
     };
 
     this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this);
@@ -31,18 +31,18 @@ export default class App extends Component {
 
   handleSuccessfulLogin() {
     this.setState({
-      loggedInStatus: "LOGGED_IN",
+      loggedInStatus: "LOGGED_IN"
     });
   }
 
   handleUnsuccessfulLogin() {
     this.setState({
-      loggedInStatus: "NOT_LOGGED_IN",
+      loggedInStatus: "NOT_LOGGED_IN"
     });
   }
   handleSuccessfulLogout() {
     this.setState({
-      loggedInStatus: "NOT_LOGGED_IN",
+      loggedInStatus: "NOT_LOGGED_IN"
     });
   }
   checkLoginStatus() {
@@ -64,6 +64,10 @@ export default class App extends Component {
           this.setState({
             loggedInStatus: "LOGGED_IN",
           });
+        } else if (!loggedIn && loggedInStatus === "LOGGED_IN") {
+          this.setState({
+            loggedInStatus: "NOT_LOGGED_IN"
+          });
         }
       })
       .catch((error) => {
@@ -76,7 +80,7 @@ export default class App extends Component {
   }
   authorizedPages() {
     return [
-      <Route key="1" path="/portfolio-manager" component={PortfolioManager} />,
+      <Route key="1" path="/portfolio-manager" component={PortfolioManager} />
     ];
   }
 
@@ -85,7 +89,7 @@ export default class App extends Component {
       <div className="container">
         <Router>
           <div>
-            <NavigationComponent
+            <NavigationContainer
               loggedInStatus={this.state.loggedInStatus}
               handleSuccessfulLogout={this.handleSuccessfulLogout}
             />
