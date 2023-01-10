@@ -9,7 +9,7 @@
   "scripts": {
     "preinstall": "npm set audit false",
     "start": "webpack-dev-server --config webpack/dev.config.js --watch",
-    "build": "[my-framework] build --output public",
+    "build": "build --output public",
     
     "precommit": "eslint src",
     "prod": "NODE_ENV=production node server.js"
