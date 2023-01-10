@@ -14,8 +14,7 @@ export default function About() {
           }}
       />
       <div className="right-column">
-
-        <h1>Hola! Te dejo aquí mi </h1>
+        <h2>Hola! Te dejo por aquí mi</h2>
         <div className="cv">
           <a href='https://mnf.red/tecnosue/timeline' className="site-link" target="_blank">
             <h1>CV</h1>

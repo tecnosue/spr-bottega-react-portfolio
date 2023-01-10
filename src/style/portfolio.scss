@@ -1,6 +1,8 @@
 .portfolio-items-wrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    grid-auto-rows: 22rem;
+    grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
 
 
     .portfolio-item-wrapper {
@@ -12,9 +14,13 @@
             background-repeat: no-repeat;
             height: 350px;
             width: 100%;
-
-            
-        }
+            border-radius: 5px;
+            box-shadow: inset 2px 1px 10px 2px rgba(0, 0, 0, 0.1);
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            -ms-border-radius: 5px;
+            -o-border-radius: 5px;
+}
         
         .img-text-wrapper {
             position: absolute;
@@ -41,14 +47,12 @@
 
         }
         .logo-wrapper img {
-            width: 20%;
-            margin-bottom: 20px;
+            width: 40%;
             
         }   
     }    
 }
 
-//.portfolio-img-backgroundimage-blur {
 .image-blur {
     transition: 0.1s;
     filter: brightness(10%);
