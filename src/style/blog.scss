@@ -46,6 +46,7 @@
         justify-items: center;
         align-items: center;
         margin: 20px;
+        max-width: 75ch;
         
 
         h1 {
@@ -59,11 +60,16 @@
             border-radius: 5px;
             object-fit: cover;
 
+            img {
+                max-width: 75ch;
+            }
+
         }
 
         .content {
             margin: 20px;
             text-justify: auto;
+            max-width: 75ch;
         }
     }
 }
