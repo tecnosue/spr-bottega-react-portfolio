@@ -6,8 +6,8 @@ Como Heroku dejo de ser gratuito el proyecto esta ahora
 
 implementado en Vercel:
 
-[https://spr-bottega-react-portfolio.vercel.app]()
+https://spr-bottega-react-portfolio.vercel.app
 
-[https://spr-bottega-react-portfolio-git-main-tecnosue.vercel.app](https://spr-bottega-react-portfolio-git-main-tecnosue.vercel.app)
+https://spr-bottega-react-portfolio-git-main-tecnosue.vercel.app
 
-[https://spr-bottega-react-portfolio-tecnosue.vercel.app](https://spr-bottega-react-portfolio-tecnosue.vercel.app)
+https://spr-bottega-react-portfolio-tecnosue.vercel.app
