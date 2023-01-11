@@ -1,6 +1,8 @@
 .portfolio-detail-wrapper {
-    
-    width: 100vw;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 350px auto;
+ 
 
     .banner {
       height: 300px;
@@ -35,15 +37,16 @@
       align-items: center;
   
       .site-link {
-        padding: 15px;
+        padding: 0px 10px;
         background-color: $teal;
-        border-radius: 3px;
+        border-radius: 10px;
         text-decoration: none;
         color: white;
         transition: 0.5s ease-in-out;
-        font-size: 1.2em;
-  
+        font-size: 1em;
+
         &:hover {
+          
           background-color: $dark-teal;
         }
       }
