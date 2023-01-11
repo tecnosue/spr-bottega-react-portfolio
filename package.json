@@ -1,11 +1,15 @@
 {
   "name": "susana-paracuellos-react-portfolio",
   "version": "1.0.0",
-
+  "engines": {
+    "node": "16.16.0",
+    "npm": "8.11.0"
+  },
   "description": "Portfolio personal con React.",
   "scripts": {
     "preinstall": "npm set audit false",
     "start": "webpack-dev-server --config webpack/dev.config.js --watch",
+    "build:digitalOcean": "yarn install --production=false && rimraf dist && yarn build && yarn install --production --frozen-lockfile",
     "build": "cross-env NODE_ENV=production webpack --config webpack/prod.config.js --progress --display-error-details --color",
     "postbuild": "npm run build",
     "precommit": "eslint src",
@@ -31,7 +35,7 @@
   "bugs": {
     "url": "https://github.com/bottega-code-school/js-builder/issues"
   },
-  "homepage": "https://github.com/tecnosue/spr-bottega-react-portfolio/blob/master/src/components/app.js",
+  "homepage": "https://github.com/bottega-code-school/js-builder",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
